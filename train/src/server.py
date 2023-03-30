@@ -1,7 +1,8 @@
 import os
 import argparse
+import json
 
-from flask import Flask
+from flask import Flask, g
 from pymongo import MongoClient
 
 from run.runs_config import load_runs_config, RUNS_CONFIG_DEFAULT
@@ -18,7 +19,8 @@ def todo():
     except:
         return "MongoDB server not available"
     '''
-    return "Hello World"
+    print( g.runs_config )
+    return json.dumps( g.runs_config, indent = 3 )
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -40,8 +42,10 @@ def parse_args():
 
     return args
 
-if __name__ == '__main__':
-
+@app.before_first_request
+def initialize_app(
+):
+    print( 'Before first request' )
     args = parse_args()
 
     # load runs_config
@@ -52,14 +56,20 @@ if __name__ == '__main__':
         # default
         runs_config = RUNS_CONFIG_DEFAULT
 
-    if ( args.develop ):
+    g.runs_config = runs_config
+
+def start_server(
+    develop,
+    port = 9090,
+):
+    if ( develop ):
         # Serve development via Flask's run command
         print( "Running in Development mode" )
         app.run(
             host = '0.0.0.0',
             port = os.environ.get(
                 "FLASK_SERVER_PORT",
-                9090,
+                port,
             ),
             debug = True,
         )
@@ -70,5 +80,13 @@ if __name__ == '__main__':
         serve(
             app,
             host = "0.0.0.0",
-            port = 9090,
+            port = port,
         )
+
+if __name__ == '__main__':
+
+    args = parse_args()
+
+    start_server(
+        args.develop,
+    )
