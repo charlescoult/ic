@@ -13,6 +13,7 @@ from model import get_model_name, gen_base_model_layer, gen_classifier_model_lay
 import callbacks
 from scoring import score
 from transformation import transform_dataset_df
+from runs_config import RUNS_CONFIG_DEFUALT
 
 import util
 
@@ -398,9 +399,7 @@ def start_run(
 
 if __name__ == '__main__':
 
-    runs_dir = '/media/data/runs'
-    runs_hdf = 'runs.h5'
-    runs_hdf_key = 'runs'
+    runs_config = RUNS_CONFIG_DEFAULT
 
     runMeta = RunMeta(
         {
@@ -441,9 +440,9 @@ if __name__ == '__main__':
                 }
             }
         },
-        runs_dir = runs_dir,
-        runs_hdf = runs_hdf,
-        runs_hdf_key = runs_hdf_key,
+        runs_dir = runs_config.runs_dir,
+        runs_hdf = runs_config.runs_hdf,
+        runs_hdf_key = runs_config.runs_hdf_key,
     )
 
     with strategy.scope():
