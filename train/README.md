@@ -1,10 +1,10 @@
 # Training Runs
 
-Model training
-
+Application stack for model training queue and execution
 
 ## Installation
 
+### Requirements
 * Docker
 * Docker Compose
 
