@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  #   rabbitmq:
+  #     image: "rabbitmq"
+  #     container_name: "rabbitmq"
+  #     ports:
+  #       - "5672:5672"
+  #   ic-train-server:
+  #     build:
+  #       context: .
+  #       dockerfile: Dockerfile.ic-train-server
+  #     ports:
+  #       - "9090:9090"
+  ic-train-worker:
+    # runtime: nvidia
+    command: nvidia-smi
+    build:
+      context: .
+      dockerfile: Dockerfile.ic-train-worker
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
