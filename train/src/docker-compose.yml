@@ -11,3 +11,13 @@ services:
       dockerfile: Dockerfile.ic-train-server
     ports:
       - "9090:9090"
+  ic-train-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.ic-train-worker
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]

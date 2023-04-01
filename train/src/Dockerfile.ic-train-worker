@@ -1,0 +1,30 @@
+# Use the official Nvidia CUDA image as the base image
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+
+ENV MAMBA_INSTALL="https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh"
+ENV MAMBA_LOC="/root/mambaforge/bin/"
+# Install Mamba
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -L ${MAMBA_INSTALL} -o mambaforge.sh && \
+    sh mambaforge.sh -b && \
+    rm mambaforge.sh
+
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/cuda/lib64/lib/"
+ENV PATH="${PATH}:${MAMBA_LOC}"
+ENV CONDA_ENV="ic-train-worker"
+
+# Copy the environment.yml file into the container
+COPY environment.${CONDA_ENV}.yml .
+
+RUN nvidia-smi
+
+# Create a new conda environment using Mamba and the environment.yml file
+RUN mamba env create -f environment.${CONDA_ENV}.yml
+# RUN mamba create -n ${CONDA_ENV} && \
+#     . activate ${CONDA_ENV} && \
+#     mamba install --no-deps --file environment.${CONDA_ENV}.yml
+
+# Activate the new conda environment
+# SHELL [ "conda", "run", "-n", "myenv", "/bin/bash" ]
+
