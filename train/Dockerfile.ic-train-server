@@ -5,9 +5,7 @@ WORKDIR /app
 ENV CONDA_ENV="ic-train-server"
 
 COPY ./environment.${CONDA_ENV}.yml /app
-COPY ./server.py /app
-COPY tasks.py /app
-COPY run /app
+COPY ./src /app
 
 RUN conda install -c conda-forge mamba
 RUN mamba env create -f environment.${CONDA_ENV}.yml

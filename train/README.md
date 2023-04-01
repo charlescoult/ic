@@ -25,4 +25,8 @@ In order for the `ic-train-worker` docker container to be built, the `nvidia-con
     }
 }
     ```
+* When starting the `docker-compose.yml` configuration, be sure to set `DOCKER_BUILDKIT=0` to disable the new and expermental docker BuildKit (which doesn't want to use the default runtime, `nvidia` that we set above)
+    ```bash
+    DOCKER_BUILDKIT=0 docker compose up
+    ```
 

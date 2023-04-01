@@ -13,7 +13,6 @@ services:
   #       - "9090:9090"
   ic-train-worker:
     # runtime: nvidia
-    command: nvidia-smi
     build:
       context: .
       dockerfile: Dockerfile.ic-train-worker
