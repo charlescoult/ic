@@ -5,6 +5,7 @@ RUNS_CONFIG_DEFAULT = {
     'runs_dir': '/media/data/runs',
     'runs_hdf': 'runs.h5',
     'runs_hdf_key': 'runs',
+    'queue_fn': 'queue.bin',
 }
 
 RUNS_CONFIG_TEST = {

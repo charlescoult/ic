@@ -54,13 +54,13 @@ if __name__ == '__main__':
     with open( args.config_file ) as f:
         run = json.load( f )
 
-    make_dir_if_not_exist( runs_dir )
+    make_dir_if_not_exist( runs_config['runs_dir'] )
 
     run = RunMeta(
         run,
-        runs_dir = runs_config.runs_dir,
-        runs_hdf = runs_config.runs_hdf,
-        runs_hdf_key = runs_config.runs_hdf_key,
+        runs_dir = runs_config['runs_dir'],
+        runs_hdf = runs_config['runs_hdf'],
+        runs_hdf_key = runs_config['runs_hdf_key'],
     )
 
     print(run)

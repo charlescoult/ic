@@ -13,7 +13,7 @@ from model import get_model_name, gen_base_model_layer, gen_classifier_model_lay
 import callbacks
 from scoring import score
 from transformation import transform_dataset_df
-from runs_config import RUNS_CONFIG_DEFUALT
+from runs_config import RUNS_CONFIG_DEFAULT
 
 import util
 
