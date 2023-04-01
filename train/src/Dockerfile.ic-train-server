@@ -1,0 +1,17 @@
+FROM continuumio/miniconda3
+
+WORKDIR /app
+
+ENV CONDA_ENV="ic-train-server"
+
+COPY ./environment.${CONDA_ENV}.yml /app
+COPY ./server.py /app
+COPY tasks.py /app
+COPY run /app
+
+RUN conda install -c conda-forge mamba
+RUN mamba env create -f environment.${CONDA_ENV}.yml
+
+EXPOSE 9090
+
+CMD ["/bin/bash", "-c", "conda run -n ic-train-server python server.py" ]

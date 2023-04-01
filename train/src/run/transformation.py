@@ -1,4 +1,4 @@
-from common import *
+from .common import *
 
 # TODO: this should really be in the input data pipeline (idp)
 

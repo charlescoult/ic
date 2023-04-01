@@ -1,4 +1,4 @@
-from common import *
+from .common import *
 
 # TensorBoard logs
 class TensorBoard( tf.keras.callbacks.TensorBoard ):

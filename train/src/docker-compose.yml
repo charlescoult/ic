@@ -5,3 +5,9 @@ services:
     container_name: "rabbitmq"
     ports:
       - "5672:5672"
+  ic-train-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.ic-train-server
+    ports:
+      - "9090:9090"

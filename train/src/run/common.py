@@ -3,7 +3,7 @@ import json
 import time
 import datetime
 import logging
-from util import limit_memory_growth
+from .util import limit_memory_growth
 
 import tensorflow as tf
 from tensorflow import keras

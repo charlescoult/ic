@@ -1,4 +1,4 @@
-from common import *
+from .common import *
 
 from keras.utils.layer_utils import count_params
 

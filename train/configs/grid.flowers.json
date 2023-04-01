@@ -1,4 +1,5 @@
-{ 
+{
+	"_run_group_type": "grid",
 	"batch_size": [
 		16,
 		32,

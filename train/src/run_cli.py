@@ -2,9 +2,9 @@ import argparse
 import json
 import os
 
-from run import start_run
-from metadata import RunMeta
-from runs_config import load_runs_config, RUNS_CONFIG_DEFAULT
+from run.run import start_run
+from run.metadata import RunMeta
+from config.runs_config import load_runs_config, RUNS_CONFIG_DEFAULT
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -23,9 +23,8 @@ def parse_args():
         '-r',
         '--runs_config',
     )
-    args = parser.parse_args()
 
-    return args
+    return parser.parse_args()
 
 def make_dir_if_not_exist( runs_dir ):
     if ( os.path.exists( runs_dir ) ):
