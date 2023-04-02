@@ -7,7 +7,6 @@ ENV MAMBA_INSTALL="https://github.com/conda-forge/miniforge/releases/latest/down
 ENV MAMBA_LOC="/root/mambaforge/bin/"
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/cuda/lib64/lib/"
 ENV PATH="${PATH}:${MAMBA_LOC}"
-ENV CONDA_ENV="ic-train-worker"
 
 # Install Mamba
 RUN apt-get update && \
@@ -15,6 +14,12 @@ RUN apt-get update && \
     curl -L ${MAMBA_INSTALL} -o mambaforge.sh && \
     sh mambaforge.sh -b && \
     rm mambaforge.sh
+
+# Test to make sure build runtime is `nvidia` otherwise conda env creation will fail
+RUN nvidia-smi
+
+# name of the environment to be created (could just use the default, `base` but w/e)
+ENV CONDA_ENV="ic-train-worker"
 
 # Copy the environment.yml file into the container
 COPY ./environment.${CONDA_ENV}.yml /app
@@ -24,15 +29,6 @@ RUN mamba env create -f environment.${CONDA_ENV}.yml
 
 # Copy the source
 COPY ./src /app
-
-# Test to make sure build runtime is `nvidia`
-RUN nvidia-smi
-
-# Set XLA_FLAGS env variable for conda environment
-RUN . activate ${CONDA_ENV} && conda env config vars set -n ${CONDA_ENV} XLA_FLAGS=$CONDA_PREFIX
-
-# ENV XLA_FLAGS --xla_gpu_cuda_data_dir=$CONDA_PREFIX
-# RUN echo "export XLA_FLAGS=--xla_gpu_cuda_data_dir=\"$CONDA_PREFIX\"" >> ~/.bashrc
 
 # Activate the new conda environment and run the worker
 CMD /bin/bash -c ". activate ${CONDA_ENV} && printenv && python tasks_worker.py"
