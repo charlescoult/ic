@@ -9,7 +9,7 @@ from flask import Flask, g
 from tasks import handle_new_run_request
 from tasks import app as celery_app
 
-from run.runs_config import load_runs_config, RUNS_CONFIG_DEFAULT
+from config.runs_config import load_runs_config, RUNS_CONFIG_DEFAULT
 
 app = Flask( __name__ )
 

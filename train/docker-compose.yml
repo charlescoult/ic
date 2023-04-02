@@ -1,21 +1,24 @@
-version: "3.9"
+version: '3.9'
 services:
-  #   rabbitmq:
-  #     image: "rabbitmq"
-  #     container_name: "rabbitmq"
-  #     ports:
-  #       - "5672:5672"
-  #   ic-train-server:
-  #     build:
-  #       context: .
-  #       dockerfile: Dockerfile.ic-train-server
-  #     ports:
-  #       - "9090:9090"
+  rabbitmq:
+    image: 'rabbitmq:alpine'
+    container_name: "rabbitmq"
+    ports:
+      - '5672:5672'
+  ic-train-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.ic-train-server
+    links:
+      - rabbitmq
+    ports:
+      - '9090:9090'
   ic-train-worker:
-    # runtime: nvidia
     build:
       context: .
       dockerfile: Dockerfile.ic-train-worker
+    links:
+      - rabbitmq
     deploy:
       resources:
         reservations:

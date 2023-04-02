@@ -20,14 +20,13 @@ ENV CONDA_ENV="ic-train-worker"
 COPY ./environment.${CONDA_ENV}.yml /app
 COPY ./src /app
 
-RUN echo HELLO
-
+# Test to make sure build runtime is `nvidia`
 RUN nvidia-smi
 
 # Create a new conda environment using Mamba and the environment.yml file
-# RUN mamba env create -f environment.${CONDA_ENV}.yml && \
-#     . activate ${CONDA_ENV}
+RUN mamba env create -f environment.${CONDA_ENV}.yml && \
+    . activate ${CONDA_ENV}
 
 # Activate the new conda environment
-# SHELL [ "conda", "run", "-n", "${CONDA_ENV}", "/bin/bash", "-c", "python tasks_worker.py" ]
+SHELL [ "conda", "run", "-n", "${CONDA_ENV}", "/bin/bash", "-c", "python tasks_worker.py" ]
 
