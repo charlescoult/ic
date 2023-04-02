@@ -28,6 +28,12 @@ COPY ./src /app
 # Test to make sure build runtime is `nvidia`
 RUN nvidia-smi
 
+# Set XLA_FLAGS env variable for conda environment
+RUN . activate ${CONDA_ENV} && conda env config vars set -n ${CONDA_ENV} XLA_FLAGS=$CONDA_PREFIX
+
+# ENV XLA_FLAGS --xla_gpu_cuda_data_dir=$CONDA_PREFIX
+# RUN echo "export XLA_FLAGS=--xla_gpu_cuda_data_dir=\"$CONDA_PREFIX\"" >> ~/.bashrc
+
 # Activate the new conda environment and run the worker
-CMD /bin/bash -c ". activate ${CONDA_ENV} && python tasks_worker.py"
+CMD /bin/bash -c ". activate ${CONDA_ENV} && printenv && python tasks_worker.py"
 

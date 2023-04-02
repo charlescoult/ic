@@ -1,5 +1,6 @@
 name: ic-train-worker
 channels:
+  - nvidia
   - conda-forge
   - defaults
 dependencies:
@@ -50,6 +51,7 @@ dependencies:
   - conda-package-streaming=0.7.0=pyhd8ed1ab_1
   - contourpy=1.0.7=py310hdf3cbec_0
   - cryptography=39.0.2=py310h34c0648_0
+  - cuda-nvcc=12.1.66=0
   - cudatoolkit=11.8.0=h37601d7_11
   - cudnn=8.4.1.50=hed8a83a_0
   - cycler=0.11.0=pyhd8ed1ab_0
@@ -61,6 +63,7 @@ dependencies:
   - dm-tree=0.1.7=py310h769672d_0
   - dnspython=2.3.0=pyhd8ed1ab_0
   - entrypoints=0.4=pyhd8ed1ab_0
+  - erlang=25.3=pl5321h187a391_0
   - etils=1.1.1=pyhd8ed1ab_0
   - executing=1.2.0=pyhd8ed1ab_0
   - expat=2.5.0=h27087fc_0
@@ -219,6 +222,7 @@ dependencies:
   - parso=0.8.3=pyhd8ed1ab_0
   - pcre=8.45=h9c3ff4c_0
   - pcre2=10.40=hc3806b6_0
+  - perl=5.32.1=2_h7f98852_perl5
   - pexpect=4.8.0=pyh1a96a4e_2
   - pickleshare=0.7.5=py_1003
   - pillow=9.4.0=py310h023d228_1
@@ -264,6 +268,7 @@ dependencies:
   - pyu2f=0.1.5=pyhd8ed1ab_0
   - pyzmq=25.0.2=py310h059b190_0
   - qt-main=5.15.8=h5d23da1_6
+  - rabbitmq-server=3.11.12=ha770c72_0
   - re2=2023.02.01=hcb278e6_0
   - readline=8.1.2=h0f457ee_0
   - reproc=14.2.4=h0b41bf4_0
@@ -279,6 +284,7 @@ dependencies:
   - sip=6.7.7=py310heca2aa9_0
   - six=1.16.0=pyh6c4a22f_0
   - snappy=1.1.10=h9fff704_0
+  - socat=1.7.4.3=hcf15d07_0
   - soupsieve=2.3.2.post1=pyhd8ed1ab_0
   - stack_data=0.6.2=pyhd8ed1ab_0
   - tensorboard=2.11.2=pyhd8ed1ab_0
