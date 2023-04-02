@@ -24,6 +24,8 @@ def train_val_test_split(
             maxval = tf.int64.max,
         )
 
+    print("ttv split")
+
     # "reshuffle_each_iteration controls whether the shuffle order should be different for each epoch"
     # Specify seed to always have the same split distribution between runs
     ds = ds.shuffle(
@@ -31,6 +33,8 @@ def train_val_test_split(
         seed = shuffle_seed,
         name = 'train_val_test_split_shuffle',
     )
+
+    print("ttv split")
 
     train_size = int( train_split * len(ds) )
     val_size = int( val_split * len(ds) )
@@ -50,6 +54,9 @@ def train_val_test_split_stratified(
     test_split = 0.1,
     shuffle_seed = None,
 ):
+
+    print("ttvs split")
+
 
     val_split_2 = val_split / ( 1 - test_split )
 

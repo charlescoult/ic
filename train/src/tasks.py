@@ -15,9 +15,7 @@ app = Celery(
 def run_request_task(
     data,
 ):
-    print( 'Received %s' % data )
-    time.sleep( 10 )
-    print( 'Completed %s' % data )
+    print("Running from task definition in server? is this definition even necessary other than to register the name of the task?")
 
 def handle_new_run_request(
     run_request,

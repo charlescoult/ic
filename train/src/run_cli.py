@@ -43,11 +43,12 @@ if __name__ == '__main__':
     if ( args.runs_config ):
         print( 'Loading runs_config from %s' % args.runs_config )
         runs_config = load_runs_config( args.runs_config )
-    elif ( args.test ):
-        print( 'Using testing runs_config' )
-        runs_config['runs_dir'] = '/media/data/test_runs'
     else:
         print( 'Using default runs_config' )
+
+    if ( args.test ):
+        print( 'Using testing runs_dir' )
+        runs_config['runs_dir'] = '/media/data/test_runs'
 
     # load the specified run config file
     with open( args.config_file ) as f:

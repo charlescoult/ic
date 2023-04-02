@@ -162,6 +162,8 @@ def start_run(
     run['dataset']['seed_split_test'] = random.randint( 0, 2**32 - 1 )
     run['dataset']['seed_split_val'] = random.randint( 0, 2**32 - 1 )
 
+    print("ttfss")
+
     ds_train, ds_val, ds_test, split_shuffle_seed = dataset_util.train_val_test_split_stratified(
         ds_df_trans,
         col_label = col_label,

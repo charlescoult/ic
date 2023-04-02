@@ -4,7 +4,7 @@ import json
 import datetime
 import time as t
 
-from flask import Flask, g
+from flask import Flask, request, g
 
 from tasks import handle_new_run_request
 from tasks import app as celery_app
@@ -13,20 +13,23 @@ from config.runs_config import load_runs_config, RUNS_CONFIG_DEFAULT
 
 app = Flask( __name__ )
 
-@app.route( '/', methods = [ 'PUT' ] )
-@app.route( '/request', methods = [ 'PUT' ] )
+@app.route( '/request', methods = [ 'POST' ] )
 def run_request():
 
     print(app.url_map)
 
     args = datetime.datetime.now()
 
-    handle_new_run_request( args )
+    run_request = request.get_json()
+
+    handle_new_run_request( run_request )
 
     return {
         'processed_request': args,
+        'run_request': run_request,
     }
 
+@app.route('/')
 @app.route('/status')
 def get_status():
     # return json.dumps( g.runs_config, indent = 3 )

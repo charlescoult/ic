@@ -71,4 +71,5 @@ In order for the `ic-train-worker` docker container to be built, the `nvidia-con
 
 * `./src/queue_up.py <config_filename>` script
 * `POST` request sent to `localhost:9090/request` API endpoint with JSON payload containing the contents of a configuration (single run or group of runs as specified by `_run_group_type`)
+    *  `curl -X POST -H "Content-Type: application/json" -d @configs/run.flowers.test.json http://localhost:9090/request`
 
