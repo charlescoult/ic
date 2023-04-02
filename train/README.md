@@ -10,8 +10,20 @@ Once started, this application stack allows for asynchronous task requests to be
 
 ## Installation
 
-### Requirements
+### Pure Host
+* NVIDIA display driver
+* [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive)
+* [CUDNN](https://developer.nvidia.com/cudnn)
+* `Anaconda`, `Miniconda` or `Mamba` package manager
+
+### Individual Docker Containers
+* NVIDIA display driver
+* [NVIDIA Container Toolkit (nvidia-docker)](https://github.com/NVIDIA/nvidia-docker)
 * Docker
+
+### Docker Compose
+* NVIDIA display driver
+* [NVIDIA Container Toolkit (nvidia-docker)](https://github.com/NVIDIA/nvidia-docker)
 * Docker Compose
 
 ### Note regarding [NVidia Container Toolkit Installation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
@@ -39,10 +51,9 @@ In order for the `ic-train-worker` docker container to be built, the `nvidia-con
 ## Running
 
 ### Pure Host
-
 * Install and activate environment
     * `conda install mamba` - mamba runs much faster than conda
-    * `mamba env create -f environment.ic-train`
+    * `mamba env create -f environment.ic-train.yml`
         * `environment.ic` - contains all necessary packages to run all three services
     * `. activate ic-train` or `conda activate ic-train`
 * Server
@@ -54,7 +65,6 @@ In order for the `ic-train-worker` docker container to be built, the `nvidia-con
     * `python tasks_worker.py`
 
 ### Individual Docker Containers
-
 * Build
     * Server
         * `docker build --rm -t ic-train-server -f Docker.ic-train-server`
@@ -69,7 +79,7 @@ In order for the `ic-train-worker` docker container to be built, the `nvidia-con
     * RabbitMQ
         * `docker run -p 5672:5672 rabbitmq`
     * Worker
-        * `docker run ic-train-worker`
+        * `docker run --gpus all ic-train-worker`
 
 ### Docker Compose
 * `DOCKER_BUILDKIT=0 docker compose up`
