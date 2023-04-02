@@ -1,3 +1,4 @@
 FROM rabbitmq:alpine
 
 EXPOSE 5672
+

@@ -10,16 +10,11 @@ Once started, this application stack allows for asynchronous task requests to be
 
 ## Installation
 
-### Pure Host
+### localhost
 * NVIDIA display driver
 * [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive)
 * [CUDNN](https://developer.nvidia.com/cudnn)
 * `Anaconda`, `Miniconda` or `Mamba` package manager
-
-### Individual Docker Containers
-* NVIDIA display driver
-* [NVIDIA Container Toolkit (nvidia-docker)](https://github.com/NVIDIA/nvidia-docker)
-* Docker
 
 ### Docker Compose
 * NVIDIA display driver
@@ -50,38 +45,30 @@ In order for the `ic-train-worker` docker container to be built, the `nvidia-con
 
 ## Running
 
-### Pure Host
+### localhost
 * Install and activate environment
     * `conda install mamba` - mamba runs much faster than conda
     * `mamba env create -f environment.ic-train.yml`
         * `environment.ic` - contains all necessary packages to run all three services
     * `. activate ic-train` or `conda activate ic-train`
 * Server
-    * `python server.py`
+    * `python ./src/server.py`
         * `-d` - hot-reload 'development' mode
+        * `-r RUNS_CONFIG` - configuration file for where to store run metadata and saved models (see `./configs/runs_config.default.json` for an example)
 * RabbitMQ
     * `rabbitmq-server`
 * Worker
-    * `python tasks_worker.py`
-
-### Individual Docker Containers
-* Build
-    * Server
-        * `docker build --rm -t ic-train-server -f Docker.ic-train-server`
-    * RabbitMQ
-        * `docker build --rm -t rabbitmq -f Dockerfile.rabbitmq`
-    * Worker
-        * `docker build --rm -t ic-train-worker -f Docker.ic-train-worker`
-            * May need `DOCKER_BUILDKIT=0` if `docker build` is configured to run using the new Docker Buildkit
-* Run
-    * Server
-        * `docker run -p 9090:9090 ic-train-server`
-    * RabbitMQ
-        * `docker run -p 5672:5672 rabbitmq`
-    * Worker
-        * `docker run --gpus all ic-train-worker`
+    * `python ./src/tasks_worker.py`
 
 ### Docker Compose
 * `DOCKER_BUILDKIT=0 docker compose up`
     * `--build` - force rebuild, if necessary
+
+## Adding run tasks
+
+> `run.*.json` config files define the parameters for a single run and are missing the `_run_group_type` parameter
+> config files (like `grid.*.json`) specify a `_run_group_type`, indicating how to generate the series of run configurations (grid-search, random-search, etc.)
+
+* `./src/queue_up.py <config_filename>` script
+* `POST` request sent to `localhost:9090/request` API endpoint with JSON payload containing the contents of a configuration (single run or group of runs as specified by `_run_group_type`)
 

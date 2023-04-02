@@ -9,6 +9,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ic-train-server
+    environment:
+      - RABBITMQ_HOST=rabbitmq
     links:
       - rabbitmq
     ports:
@@ -17,8 +19,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ic-train-worker
+    environment:
+      - RABBITMQ_HOST=rabbitmq
     links:
       - rabbitmq
+    volumes:
+      - /media/data:/media/data
     deploy:
       resources:
         reservations:

@@ -2,7 +2,7 @@ import json
 import argparse
 
 from tasks import handle_new_run_request
-from tuning import grid_search
+from config import grid_search
 
 def queue_up(
     configs,
@@ -11,6 +11,19 @@ def queue_up(
         handle_new_run_request(
             config
         )
+
+def queue_up_from_config(
+    config_filename,
+):
+    with open( config_filename ) as config_file:
+        config = json.load( config_file )
+    group_type = config.get('_run_group_type')
+    if( group_type == 'grid' ):
+        configs = grid_search.get_permutations( config )
+    else:
+        configs = [ config ]
+
+    return configs
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -25,17 +38,11 @@ def parse_args():
 
 if __name__ == '__main__':
 
-
     args = parse_args()
 
-    with open( args.config_filename ) as config_file:
-        config = json.load( config_file )
-
-    group_type = config.get('_run_group_type')
-    if( group_type == 'grid' ):
-        configs = grid_search.get_permutations( config )
-    else:
-        configs = [ config ]
+    configs = queue_up_from_config(
+        args.config_filename,
+    )
 
     queue_up(
         configs,

@@ -27,6 +27,6 @@ RUN nvidia-smi
 RUN mamba env create -f environment.${CONDA_ENV}.yml && \
     . activate ${CONDA_ENV}
 
-# Activate the new conda environment
-SHELL [ "conda", "run", "-n", "${CONDA_ENV}", "/bin/bash", "-c", "python tasks_worker.py" ]
+# Activate the new conda environment and run the worker
+CMD /bin/bash -c ". activate ${CONDA_ENV} && python tasks_worker.py"
 
