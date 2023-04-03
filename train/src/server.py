@@ -51,6 +51,12 @@ def parse_args():
         description = 'Post a JSON RunMeta run descriptor to train a model from it',
     )
 
+    parser.add_argument(
+        '-p',
+        '--port',
+        default = '9090',
+    )
+
     # run this server in develop mode (hot-reload, not optimized)
     parser.add_argument(
         '-d',
@@ -91,8 +97,8 @@ def initialize_app():
     load_runs_config( args )
 
 def start_server(
+    port,
     develop,
-    port = 9090,
 ):
 
     if ( develop ):
@@ -100,10 +106,7 @@ def start_server(
         print( "Running in Development mode" )
         app.run(
             host = '0.0.0.0',
-            port = os.environ.get(
-                "FLASK_SERVER_PORT",
-                port,
-            ),
+            port = port,
             debug = True,
         )
     else:
@@ -121,6 +124,7 @@ if __name__ == '__main__':
     args = parse_args()
 
     start_server(
+        args.port,
         args.develop,
     )
 
