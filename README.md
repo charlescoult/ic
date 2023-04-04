@@ -68,20 +68,24 @@ In my initial model training Jupyter Notebooks I implemented a method for data a
 
 #### Upsampling
 Upsampling is a technique to balance a dataset by generating datapoints for classes on the lower end of the distribution. There are several ways of generating new samples for a minority class, such as:
-* SMOTE (Synthetic Minority Over-sampling TEchnique) - generates new samples by interpolating between existing datapoints - from my understanding though, I don't think this will actually work well, if at all, for image classification datasets. It is more commonly used for tabular datasets with continuous/numerical features. It would be interesting to see it applied to hidden feature layers or the output feature layer as opposed to the input layer.
-* Autoencoder/GAN generative models - an Autoencoder or GAN is trained for each minority class using existing datapoints from that class. It is then employed to create novel representations of the class it was trained on by using random noise as an input. It would be interesting to see how a model performs that has been trained on a dataset comprised entirely of datapoints generated from Autoencoders or GANs.
-* Data Augmentation - while it can be used to augment existing images in a dataset from epoch to epoch (as stated above), it can also be used to generate more datapoints for minority classes in an imbalanced dataset.
+* **SMOTE (Synthetic Minority Over-sampling TEchnique)** - generates new samples by interpolating between existing datapoints - from my understanding though, I don't think this will actually work well, if at all, for image classification datasets. It is more commonly used for tabular datasets with continuous/numerical features. It would be interesting to see it applied to hidden feature layers or the output feature layer as opposed to the input layer.
+* **Autoencoder/GAN generative models** - an Autoencoder or GAN is trained for each minority class using existing datapoints from that class. It is then employed to create novel representations of the class it was trained on by using random noise as an input. It would be interesting to see how a model performs that has been trained on a dataset comprised entirely of datapoints generated from Autoencoders or GANs.
+* **Data Augmentation** - while it can be used to augment existing images in a dataset from epoch to epoch (as stated above), it can also be used to generate more datapoints for minority classes in an imbalanced dataset.
 
 Again, I didn't have time to implement and of these techniques but it is something I will likely explore in the future.
 
 ### Final datasets
 I ended up with three labeled image classification datasets, each with a different level of complexity:
 
+<center>
+
 | Key | Datapoints | Classes |
 | :---: | ---: | ---: |
 |`flowers` | 3670 | 5 |
 | `cub` | 11788 | 200 |
 | `gbif` | 665803 | 2451 |
+
+</center>
 
 I realize the number of classes for `gbif` seems a bit high but I wanted to see how far I could push the model and it ended up performing relatively well.
 
