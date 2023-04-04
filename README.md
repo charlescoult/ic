@@ -1,5 +1,7 @@
-# An Adventurous Exploration of Image Classification and Machine Learning Training Pipelines through Species Identification
-This Capstone Project represents the culmination of my education in UCSD's Machine Learning Engineering Bootcamp. I call it an "Adventurous Exploration" because at the start, I had a general idea of where I was going and what I wanted to acomplish but I didn't have a great understanding of the ML tooling landscape or how I might arrive where I wanted to be. It was certainly an adventure. As I progressed through the coursework and digested other resources online, I learned about and tested with various datasets, cloud services, packages and libraries. There were several times I reached dead ends and had to double-back but I learned a great deal throughout the process. Please forgive the lack of organization.
+# An Exploration of Image Classification and Machine Learning Training Pipelines through Species Identification
+This Capstone Project represents the culmination of my education in UCSD's Machine Learning Engineering Bootcamp.
+
+I call it an "exploration" because at the start, I had a general idea of where I was going and what I wanted to acomplish but I didn't have a great understanding of the ML tooling landscape or how to use it to arrive where I wanted to be. It was certainly an adventure. As I progressed through the coursework and digested other resources online, I learned about and tested with various datasets, cloud services, packages and libraries. There were several times I reached dead ends and had to double-back but I learned a great deal throughout the process.
 
 ## The Problem
 Being a fan of mycology and the natural world in general, the idea of training a machine learning model for species identification was very appleaing to me. Many times while hiking without cell service, I've come across interesting fungi that I wanted to identify. I would take a picture of them with the intention of identifying them later, but since it wasn't a high priority, I never got around to reviewing the pictures.
@@ -24,7 +26,7 @@ The class curriculum covered the following three main topics:
 ## Data
 If there's one thing that has been drilled into my head from this class it's that data is the fuel of machine learning and a model is only as good as the data being fed into it. Finding or collecting good data, profiling it, and cleaning it are the essential first steps in training a model.
 
-### Data sourcing
+### Data Sourcing (Provenance)
 Initially, I had a very difficult time finding a good dataset of images with associated species labels. After days of searching, I was floored when I stumbled upon the [Global Biodiversity Information Facility (gbif.org)](https://www.gbif.org/). It is an aggregation of numerous biodiversity datasets found across the web and it simply blew me away with the wealth of observation datapoints it contains (over 2 billion).
 
 Using GBIF's amazing search page I was able to see that its ["iNaturalist Research-grade Observations"](https://www.gbif.org/dataset/50c9509d-22c7-4a22-a47d-8c48425ef4a7) dataset contained 1.5 million image-media observation datapoints for the kingdom Fungi. I was also then able to easily download the filtered dataset for use in my project.
@@ -83,10 +85,12 @@ I ended up with three labeled image classification datasets, each with a differe
 
 I realize the number of classes for `gbif` seems a bit high but I wanted to see how far I could push the model and it ended up performing relatively well.
 
-Also of note: These are just the source dataset DataFrames passed to the training engine. Based on run parameters set but the `run_config` supplied, the source dataset DataFrame can be downsampled (and eventually upsampled in future version) by the training engine. 
+Also of note: These are just the source dataset DataFrames passed to the training engine. Based on run parameters set but the `run_config` supplied, the source dataset DataFrame can be downsampled (and eventually upsampled in future versions) by the training engine. 
 
 ## Modeling and Algorithms
 For image classification, the obvious and historical choice is to use a Convolutional Neural Network (CNN). There are several different architectures available.
+
+The loss function I chose to use is the categorical cross entropy which measures the dissimilarity between the predicted probability distribution of the classes and the true probability distribution of the classes. There is also the Kulback-Leibler divergence loss which is similar to the categorical cross entropy and the Focal loss which is designed to assign more weight to hard-to-classify datapoints (better for imbalanced datasets). These would be interesting to compare and contrast in the future.
 
 ### Model Algorithm and Architecture Selection
 In order to speed up training time, I utilized transfer learning. This involves loading a pre-trained model with weights from another, similar dataset and removing the classification dense layer(s) in order to expose the model's final encoded feature layer for use by our own classification layer. A layer freezing strategy is then selected (as shown below) and the model is trained using the new dataset.
@@ -113,12 +117,17 @@ The enumeration of models I chose for comparison can be found [here](https://git
 
 The full comparison can be found [here](https://charlescoult.notion.site/14-8-7-Experient-With-Various-Models-37e33e3f53984891b11e42a6d4ee67c8)
 
+#### One-hot vs Numerical Label Encoding
+When encoding labels on the model output layer there are two options: one-hot or numerical encoding. One-hot encoding is generally used for disparate classes that have no natural ordering between them. Numerical on the other hand is generally used when there *is* a natural order between classes.
+
+Something to look into would be how to represent heirarchical labeling where, in the context of species identification, a class is represented by not only its species but all other taxonomic ranks as well (Domain, Kingdom, Phylum, etc.), thus providing more informational detail of correlations between datapoints and if doing so would aid the model's training efficiency and performance. I suppose multi-label encoding could accomplish this.
+
 ### Hyperparameter Tuning
 
 #### Initial Training Scripts
 My initial model training scripts can be found in [`fungi/models`](https://github.com/charlescoult/fungi/tree/main/model), the final draft of which is [`gbif_02.ipynb`](https://github.com/charlescoult/fungi/blob/main/model/gbif_02.ipynb).
 
-From these initial training scripts I generated a simple [grid-search](https://github.com/charlescoult/fungi/blob/main/model/grid_search.py) program. The results of which can be found [here](https://www.notion.so/charlescoult/14-8-7-Experient-With-Various-Models-37e33e3f53984891b11e42a6d4ee67c8?pvs=4#fa6e6e23018a43209bce0fe7090e8af1).
+From these initial training scripts I generated a simple [grid-search](https://github.com/charlescoult/fungi/blob/main/model/grid_search.py) program.
 
 #### Modular Training Scripts
 As an engineer who values efficiency, I'm a big fan of automation. While iterating on models, I found that I was having trouble aggregating all the model metadata (training logs, scoring, parameters, etc.) into an easily comparible form. I needed a consistent and automated way to store all the relevant data for each model for later comparison and analysis.
@@ -152,6 +161,9 @@ Model predictions can be served by an API call backed through one of several opt
 
 I settled on a client-side solution though this does expose the full model and its weights to the end-user, eliminating the ability to monetize the generated model. Anyone could download the model and weights and run them isolated from any back-end infrastructure that might limit use based on credentials or paid-subscription. In a professional setting, this would likely not be an option. I implemented the client-side solution due to its ease-of-implementation and offline capabilities.
 
+## Results
 The resulting front-end applicaiton can be found hosted on my website at [ml.charlescoult.com](https://ml.charlescoult.com)
 
 
+## Further Research and Exploration
+In order to improve this project in the future, I intend to refine and reorganize it. My plan is to add modular components that can be programmatically switched through run configuration files. For example, I have already implemented dataset, base model, and downsampling selection parameters. Going forward, I would like to incorporate different strategies for freezing layers, loss functions, label encoding, and class balancing (upsampling, etc.). There are numerous techniques available to improve model performance for image classification, and I am eager to explore them. Additionally, I plan to incorporate image segmentation and GPS location features to enhance the model's performance even further.
