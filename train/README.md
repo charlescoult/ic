@@ -49,7 +49,7 @@ In order for the `ic-train-worker` docker container to be built, the `nvidia-con
 * Install and activate environment
     * `conda install mamba` - mamba runs much faster than conda
     * `mamba env create -f environment.ic-train.yml`
-        * `environment.ic` - contains all necessary packages to run all three services
+        * `environment.ic-train.yml` - contains all necessary packages to run all three services
     * `. activate ic-train` or `conda activate ic-train`
 * Server
     * `python ./src/server.py`
