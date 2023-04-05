@@ -1,7 +1,7 @@
 # An Exploration of Image Classification and Machine Learning Training Pipelines through Species Identification
 This Capstone Project represents the culmination of my education in UCSD's Machine Learning Engineering Bootcamp.
 
-I call it an "exploration" because at the start, I had a general idea of where I was going and what I wanted to acomplish but I didn't have a great understanding of the ML tooling landscape or how to use it to arrive where I wanted to be. It was certainly an adventure. As I progressed through the coursework and digested other resources online, I learned about and tested with various datasets, cloud services, packages and libraries. There were several times I reached dead ends and had to double-back but I learned a great deal throughout the process.
+I call it an "exploration" because at the start, I had a general idea of where I was going and what I wanted to acomplish but I didn't have a great understanding of the ML tooling landscape or how to use it to arrive at where I wanted to be (some sort of functioning model). It was certainly an adventure. As I progressed through the coursework and digested other resources online, I learned about and tested with various datasets, cloud services, packages and libraries. There were several times I reached dead ends and had to double-back but I learned a great deal throughout the process.
 
 ## The Problem
 Being a fan of mycology and the natural world in general, the idea of training a machine learning model for species identification was very appleaing to me. Many times while hiking without cell service, I've come across interesting fungi that I wanted to identify. I would take a picture of them with the intention of identifying them later, but since it wasn't a high priority, I never got around to reviewing the pictures.
@@ -166,8 +166,21 @@ Model predictions can be served by an API call backed through one of several opt
 I settled on a client-side solution though this does expose the full model and its weights to the end-user, eliminating the ability to monetize the generated model. Anyone could download the model and weights and run them isolated from any back-end infrastructure that might limit use based on credentials or paid-subscription. In a professional setting, this would likely not be an option. I implemented the client-side solution due to its ease-of-implementation and offline capabilities.
 
 ## Results
-The resulting front-end applicaiton can be found hosted on my website at [ml.charlescoult.com](https://ml.charlescoult.com)
+The resulting front-end applicaiton can be found hosted on my website at [ml.charlescoult.com](https://ml.charlescoult.com). There is a button that takes you to a search for a random class for the selected model. Find an image and copy its location (must end in `.jpg` or `.png`). Paste in the address and hit 'Enter' on your keyboard or click 'Classify' to see the prediction results.
 
+Some images have Cross Origin Resource Sharing disabled - preventing the page from loading the image. In these cases you will need to download the image to your device and then load it into the application from your device.
+
+If on a cell phone, you should be able to take a picture and load it directly into the application from your device.
+
+There are currently three models to choose from:
+* **CUB v0.1.0**\
+  Inception model architecture using initial weights from ImageNet, trained on the CUBirds dataset (200 classes) using numerical label encoding.
+* **GBIF v0.1.0**\
+  Inception model architecture using initial weights from ImageNet, trained on the GBIF Fungi dataset (2451 classes) using numerical label encoding.
+* **GBIF v0.2.0**\
+  Inception model architecture using initial weights from ImageNet, trained on the GBIF Fungi dataset (2451 classes) using one-hot label encoding. This was run using the newer, modular training code found in `ic/train`. It performs better than the previous version.
+
+While the model's performance isn't great, it is still helpful and usable in my opinion. I wouldn't go betting my life on any of its predictions though!
 
 ## Further Research and Exploration
 In order to improve this project in the future, I intend to refine and reorganize it. My plan is to add modular components that can be programmatically switched through run configuration files. For example, I have already implemented dataset, base model, and downsampling selection parameters. Going forward, I would like to incorporate different strategies for freezing layers, loss functions, label encoding, and class balancing (upsampling, etc.). There are numerous techniques available to improve model performance for image classification, and I am eager to explore them. Additionally, I plan to incorporate image segmentation and GPS location features to enhance the model's performance even further.
