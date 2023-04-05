@@ -174,13 +174,13 @@ If on a cell phone, you should be able to take a picture and load it directly in
 
 There are currently three models to choose from:
 * **CUB v0.1.0**\
-  Inception model architecture using initial weights from ImageNet, trained on the CUBirds dataset (200 classes) using numerical label encoding.
+  Inception model architecture using initial weights from ImageNet, trained on the CUBirds dataset (200 classes) using numerical label encoding. This model is hosted directly on the EC2 server that is serving the application.
 * **GBIF v0.1.0**\
-  Inception model architecture using initial weights from ImageNet, trained on the GBIF Fungi dataset (2451 classes) using numerical label encoding.
+  Inception model architecture using initial weights from ImageNet, trained on the GBIF Fungi dataset (2451 classes) using numerical label encoding. This model is hosted in S3 and after it is initially loaded, it should be cached by your browser and load more quickly the next time it is selected.
 * **GBIF v0.2.0**\
-  Inception model architecture using initial weights from ImageNet, trained on the GBIF Fungi dataset (2451 classes) using one-hot label encoding. This was run using the newer, modular training code found in `ic/train`. It performs better than the previous version.
+  Inception model architecture using initial weights from ImageNet, trained on the GBIF Fungi dataset (2451 classes) using one-hot label encoding. This was run using the newer, modular training code found in `ic/train`. It performs better than the previous version. This model is hosted in S3 and after it is initially loaded, it should be cached by your browser and load more quickly the next time it is selected.
 
-While the model's performance isn't great, it is still helpful and usable in my opinion. I wouldn't go betting my life on any of its predictions though!
+While the model's performance isn't great, it is still helpful and usable in my opinion. I wouldn't go betting my life on any of its predictions though! There is definitely room for improvement.
 
 ## Further Research and Exploration
 In order to improve this project in the future, I intend to refine and reorganize it. My plan is to add modular components that can be programmatically switched through run configuration files. For example, I have already implemented dataset, base model, and downsampling selection parameters. Going forward, I would like to incorporate different strategies for freezing layers, loss functions, label encoding, and class balancing (upsampling, etc.). There are numerous techniques available to improve model performance for image classification, and I am eager to explore them. Additionally, I plan to incorporate image segmentation and GPS location features to enhance the model's performance even further.
