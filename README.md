@@ -20,7 +20,7 @@ My work can be found in the following three repositories:
 
 The class curriculum covered the following three main topics:
 * [**Data**](#Data)
-* [**Modeling and Algoithms**](#Modeling_and_Algorithms)
+* [**Modeling and Algorithms**](#Modeling_and_Algorithms)
 * [**Engineering and Deployment**](#Engineering_and_Deployment)
 
 ## Data
@@ -70,7 +70,7 @@ Upsampling is a technique used to balance a dataset by generating datapoints for
 * **Autoencoder/GAN generative models** - an Autoencoder or GAN can be trained for each minority class using existing datapoints from that class. It would then employed to create novel representations of the class it was trained on by using random noise as an input. It would be interesting to see how a model performs that has been trained on a dataset comprised entirely of datapoints generated from Autoencoders or GANs.
 * **Data Augmentation** - while it can be used to augment existing images in a dataset from epoch to epoch (as stated above), it can also be used to generate more datapoints for minority classes in an imbalanced dataset.
 
-Again, I didn't have time to implement and of these techniques but it is something I will likely explore in the future.
+Again, I didn't have time to implement any of these techniques but it is something I will likely explore in the future.
 
 ### Final datasets
 I ended up with three labeled image classification datasets, each with a different level of complexity:
