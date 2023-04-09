@@ -1,14 +1,14 @@
 # An Exploration of Image Classification and Machine Learning Training Pipelines through Species Identification
 This Capstone Project represents the culmination of my education in UCSD's Machine Learning Engineering Bootcamp.
 
-I call it an "exploration" because at the start, I had a general idea of where I was going and what I wanted to acomplish but I didn't have a great understanding of the ML tooling landscape or how to use it to arrive at where I wanted to be (some sort of functioning model). It was certainly an adventure. As I progressed through the coursework and digested other resources online, I learned about and tested with various datasets, cloud services, packages and libraries. There were several times I reached dead ends and had to double-back but I learned a great deal throughout the process.
+I call it an "exploration" because at the start, I had a general idea of where I was going and what I wanted to acomplish but I didn't have a great understanding of the ML tooling landscape or how to use it in order to acheive my desired outcome - a functioning model. It was certainly an adventure. As I progressed through the coursework and digested other resources online, I learned about and worked with various datasets, cloud services, packages and libraries. There were several times where I reached dead ends and had to double-back but I learned a great deal throughout the process.
 
 ## The Problem
 Being a fan of mycology and the natural world in general, the idea of training a machine learning model for species identification was very appleaing to me. Many times while hiking without cell service, I've come across interesting fungi that I wanted to identify. I would take a picture of them with the intention of identifying them later, but since it wasn't a high priority, I never got around to reviewing the pictures.
 
 This project aims to remedy that by providing an application that serves an offline machine learning model to allow a user to take a picture of a fungus and get a reasonable idea of what species it may be in a matter of seconds. This should hopefully supplement the user's knowledge and understanding of fungus taxonomy.
 
-The final application can be found at [ml.charlescoult.com](https://ml.charlescoult.com)
+The resulting application can be found at [ml.charlescoult.com](https://ml.charlescoult.com)
 
 My work can be found in the following three repositories:
 * [`ic`](https://github.com/charlescoult/fungi) (this repository)\
@@ -24,37 +24,35 @@ The class curriculum covered the following three main topics:
 * [**Engineering and Deployment**](#Engineering_and_Deployment)
 
 ## Data
-If there's one thing that has been drilled into my head from this class it's that data is the fuel of machine learning and a model is only as good as the data being fed into it. Finding or collecting good data, profiling it, and cleaning it are the essential first steps in training a model.
+If there's one thing that has been drilled into my head from this class it's that data is the fuel of machine learning and a model is only as good as the data being fed into it during training. Finding or collecting good data, profiling it, and cleaning it are the essential first steps in training a model.
 
 ### Data Sourcing (Provenance)
 Initially, I had a very difficult time finding a good dataset of images with associated species labels. After days of searching, I was floored when I stumbled upon the [Global Biodiversity Information Facility (gbif.org)](https://www.gbif.org/). It is an aggregation of numerous biodiversity datasets found across the web and it simply blew me away with the wealth of observation datapoints it contains (over 2 billion).
 
 Using GBIF's amazing search page I was able to see that its ["iNaturalist Research-grade Observations"](https://www.gbif.org/dataset/50c9509d-22c7-4a22-a47d-8c48425ef4a7) dataset contained 1.5 million image-media observation datapoints for the kingdom Fungi. I was also then able to easily download the filtered dataset for use in my project.
 
-While exploring iNaturalist.org, I discovered that it implements a CNN image classification model to suggests potential species matches to users when they post observations. I found [associated blog posts](https://www.inaturalist.org/blog/63931-the-latest-computer-vision-model-updates), the [repository for the model training script](https://github.com/inaturalist/inatVisionTraining) and I was able to contact the creator, [Alex Shepard](https://www.inaturalist.org/people/44845), who was more than helpful. I didn't even expect a response back but he was quick to answer my questions and provide me with several tips, including pointing me to a smaller dataset, the [Caltech-UCSD Birds (CUB) dataset](https://www.vision.caltech.edu/datasets/cub_200_2011/), to start testing with. He also pointed me to several [Kaggle competitions](https://www.kaggle.com/search?q=inaturalist) done on iNaturalist datasets. I found a lot of the winners utilized advanced stacking and/or ensemble techniques. 
+While exploring iNaturalist.org, I discovered that it implements a CNN image classification model to suggests potential species matches to users when they post observations. I found [associated blog posts](https://www.inaturalist.org/blog/63931-the-latest-computer-vision-model-updates), the [repository for the model training script](https://github.com/inaturalist/inatVisionTraining) and I was able to contact the creator, [Alex Shepard](https://www.inaturalist.org/people/44845), who was more than helpful. I didn't even expect a response back but he was quick to answer my questions and provide me with several tips, including pointing me to a smaller dataset, the [Caltech-UCSD Birds (CUB) dataset](https://www.vision.caltech.edu/datasets/cub_200_2011/), to utilize for testing. He also pointed me to several [Kaggle competitions](https://www.kaggle.com/search?q=inaturalist) done on iNaturalist datasets. I found a lot of the winners utilized advanced stacking and/or ensemble techniques - techniques which I plan on implementing in the future.
 
 ### Extract, Transform and Load (ETL) and Exploratory Data Analysis (EDA)
 An important aspect of dataset generation is ensuring there are enough datapoints for each class to provide a good representation of those classes. This involves removing classes that have too few datapoints to yeild meaningful results and removing the 'long tail' of the class distribution. This is also known as 'downsampling' where classes at the higher end of a dataset class distribution (the long tail) are randomly sampled to include only a set number of datapoints in order to balance out the dataset.
 
 #### GBIF dataset
-It was interesting to find that the distribution of datapoints per taxa (class) followed a classic Pareto distribution in that the majority of datapoints belonged to a minority of classes.
+It was interesting to find that the distribution of datapoints per taxa (class) followed a classic Pareto distribution in that the majority of datapoints belonged to a minority of classes. I find the prevalence of the Pareto distribution (as well as numerous other patterns) within natural systems endlessly fascinating.
 <p align="center">
   <img src="_images/pareto.png" alt="pareto">
 </p>
 
 
-My efforts toward exploring, cleaning and transforming the GBIF dataset I had downloaded (kingdom Fungi subset of "iNaturalist Research-grade Observations") can be foud in the [`fungi/gbif`](https://github.com/charlescoult/fungi/tree/main/gbif) repository folder.
-
-The files are rather unorganized but in summary, they accomplished the following:
-* Converting the text/csv files downloaded into a Pandas DataFrame and saving that dataframe to an HDF file
-* Exploring the dataset and its distributions
-* Determining relevant columns and removing irrelevant ones ([an example](https://github.com/charlescoult/fungi/blob/main/gbif/gbif_media_clean.ipynb))
-* Determining class distribution and where downsampling cuts should be made
+My efforts toward exploring, cleaning and transforming the GBIF dataset I had downloaded (kingdom Fungi subset of "iNaturalist Research-grade Observations") can be foud in the [`fungi/gbif`](https://github.com/charlescoult/fungi/tree/main/gbif) repository folder but they can also be summed up as follows:
+* Converted the text/csv files downloaded into a Pandas DataFrame and saving that dataframe to an HDF file
+* Explored the dataset and its distributions
+* Determined relevant columns and removing irrelevant ones ([an example](https://github.com/charlescoult/fungi/blob/main/gbif/gbif_media_clean.ipynb))
+* Determined class distribution and where downsampling cuts should be made
     * the minimum number of datapoints per class was set to 350, yeilding 2,451 classes
     * the main limiting factor was local drive space (1TB) and a rough calculation was done using the average file size of a 100 image sample to determine the above limit of 350 datapoints per taxa (class)
-* Downloading images from the dataset
-* Finding downloads that had failed and re-trying them until all downloads were successful
-* Removing datapoints with corrupted image files (less than 50)
+* Downloaded images from the dataset
+* Found downloads that had failed and re-trying them until all downloads were successful
+* Removed datapoints with corrupted image files (less than 50)
 
 I also [ran 1000 images through AWS's Rekognition software](https://github.com/charlescoult/fungi/blob/main/gbif/gbif_media_cloud_AWS.ipynb) to see if it could help me with bounding-box isolation but I determined that the price was unjustifiable.
 
@@ -62,14 +60,14 @@ I also [ran 1000 images through AWS's Rekognition software](https://github.com/c
 In order to keep a consistent dataset input format for my training script, I transformed the [CUB dataset](https://github.com/charlescoult/ic/blob/main/train/notebooks/dataset_cub_gen_df.ipynb) and [Flowers](https://github.com/charlescoult/ic/blob/main/train/notebooks/dataset_flowers_gen_df.ipynb) dataset from TensorFlow into HDF files and class-labeled directories of images.
 
 #### Data Augmentation
-Data Augmentation is a very useful technique for preventing a model from overfitting to the training dataset and performing more poorly on the validation or test datasets. In augmenting the images in different ways on each training epoch, the model learns to beter generalize its predictions.
+Data Augmentation is a very useful technique for preventing a model from overfitting to the training dataset and therefore performing more poorly on the validation or test datasets. In augmenting the images in different ways on each training epoch, the model learns to beter generalize its predictions with regard to the target class.
 
-In my initial model training Jupyter Notebooks I implemented a method for data augmentation (random zoom and random rotation) which did help with preventing overfitting but ultimately the increase in training time was not worth it in the initial training script development. I postponed further exploration into data augmentation until later in the project but didn't have time to re-implmenet it.
+In my initial model training Jupyter Notebooks I implemented a method for data augmentation (random zoom and random rotation) which did help with preventing overfitting but ultimately the increase in training time was not worth it in the initial training script development. I postponed further exploration into data augmentation until later in the project but have yet to fully re-implmenet it.
 
 #### Upsampling
-Upsampling is a technique to balance a dataset by generating datapoints for classes on the lower end of the distribution. There are several ways of generating new samples for a minority class, such as:
-* **SMOTE (Synthetic Minority Over-sampling TEchnique)** - generates new samples by interpolating between existing datapoints - from my understanding though, I don't think this will actually work well, if at all, for image classification datasets. It is more commonly used for tabular datasets with continuous/numerical features. It would be interesting to see it applied to hidden feature layers or the output feature layer as opposed to the input layer.
-* **Autoencoder/GAN generative models** - an Autoencoder or GAN is trained for each minority class using existing datapoints from that class. It is then employed to create novel representations of the class it was trained on by using random noise as an input. It would be interesting to see how a model performs that has been trained on a dataset comprised entirely of datapoints generated from Autoencoders or GANs.
+Upsampling is a technique used to balance a dataset by generating datapoints for classes on the lower end of a distribution. There are several ways of generating new samples for a minority class, such as:
+* **SMOTE (Synthetic Minority Over-sampling TEchnique)** - generates new samples by interpolating between existing datapoints - from my understanding though, I don't think this will actually work well, if at all, for image classification datasets due to the positional structure of the input features. It is more commonly used for tabular datasets with continuous/numerical features. It would be interesting to see if it could be successfully applied to hidden feature layers or the output feature layer as opposed to the input layer.
+* **Autoencoder/GAN generative models** - an Autoencoder or GAN can be trained for each minority class using existing datapoints from that class. It would then employed to create novel representations of the class it was trained on by using random noise as an input. It would be interesting to see how a model performs that has been trained on a dataset comprised entirely of datapoints generated from Autoencoders or GANs.
 * **Data Augmentation** - while it can be used to augment existing images in a dataset from epoch to epoch (as stated above), it can also be used to generate more datapoints for minority classes in an imbalanced dataset.
 
 Again, I didn't have time to implement and of these techniques but it is something I will likely explore in the future.
@@ -87,7 +85,7 @@ I ended up with three labeled image classification datasets, each with a differe
 
 </center>
 
-I realize the number of classes for `gbif` seems a bit high but I wanted to see how far I could push the model and it ended up performing relatively well.
+I realize the number of classes for `gbif` seems a bit high but I wanted to see how far I could push the model and it ended up performing relatively well. This is another meta-parameter worth experimenting with in the future.
 
 Also of note: These are just the source dataset DataFrames passed to the training engine. Based on run parameters set but the `run_config` supplied, the source dataset DataFrame can be downsampled (and eventually upsampled in future versions) by the training engine. 
 
