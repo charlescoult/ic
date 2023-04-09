@@ -8,7 +8,7 @@ Being a fan of mycology and the natural world in general, the idea of training a
 
 This project aims to remedy that by providing an application that serves an offline machine learning model to allow a user to take a picture of a fungus and get a reasonable idea of what species it may be in a matter of seconds. This should hopefully supplement the user's knowledge and understanding of fungus taxonomy.
 
-The resulting application can be found at [ml.charlescoult.com](https://ml.charlescoult.com)
+The resulting application can be found at [ml.charlescoult.com](https://ml.charlescoult.com) - Be aware: the models take a minute to initially load.
 
 My work can be found in the following three repositories:
 * [`ic`](https://github.com/charlescoult/fungi) (this repository)\
