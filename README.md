@@ -20,8 +20,8 @@ My work can be found in the following three repositories:
 
 The class curriculum covered the following three main topics:
 * [**Data**](#data)
-* [**Modeling and Algorithms**](#modeling_and_algorithms)
-* [**Engineering and Deployment**](#engineering_and_deployment)
+* [**Modeling and Algorithms**](#modeling-and-algorithms)
+* [**Engineering and Deployment**](#engineering-and-deployment)
 
 ## Data
 If there's one thing that has been drilled into my head from this class it's that data is the fuel of machine learning and a model is only as good as the data being fed into it during training. Finding or collecting good data, profiling it, and cleaning it are the essential first steps in training a model.
@@ -134,7 +134,7 @@ From these initial training scripts I generated a simple [grid-search](https://g
 #### Modular Training Scripts
 As an engineer who values efficiency, I'm a big fan of automation. While iterating on models, I found that I was having trouble aggregating all the model metadata (training logs, scoring, parameters, etc.) into an easily comparible form. I needed a consistent and automated way to store all the relevant data for each model for later comparison and analysis.
 
-One option was Tensorflow's [TensorBoard](https://www.tensorflow.org/tensorboard) which is already baked in to Tensorflow via a per-epoch callback function and I did make use of it for viewing and comparing loss and metric curves for determining which feature-extractor model to use ([see above](#model_algorithm_and_architecture_selection)):
+One option was Tensorflow's [TensorBoard](https://www.tensorflow.org/tensorboard) which is already baked in to Tensorflow via a per-epoch callback function and I did make use of it for viewing and comparing loss and metric curves for determining which feature-extractor model to use ([see above](#model-algorithm-and-architecture-selection)):
 I decided I would use the data collected by TensorBoard and figure out a way to display it in my final application but I didn't have time to implement this feature.
 
 In order to keep track of various parameters and hyperparameters that defined a training run and allow for more extensibility and variability in training methodology, I converted my Jupyter notebook based training script into a series of modular python files. I then implemented a feature to allow the training engine to execute a run based on a Python dictionary that could be loaded from a JSON `run_config` file. Examples of these files can be found in [`ic/train/configs`](https://github.com/charlescoult/ic/tree/main/train/configs). The script would then add metadata to this dictionary as it runs, ultimately saving the model metadata along with the saved model and TensorBoard logs in the run's timestamped directory.
